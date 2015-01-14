@@ -1,0 +1,3 @@
+# strap:erb
+
+# <%= local.data %>

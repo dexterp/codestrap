@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'codestrap'
+
+args = [$0] + ARGV
+
+Codestrap::Core.new(args).execute!
+

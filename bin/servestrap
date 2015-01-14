@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require 'codestrap'
+
+#options = {
+#    app_name:  'servercodestrap',
+#    backtrace: true,
+#    monitor:   false,
+#    dir_mode:  :normal,
+#    dir:       File.expand_path('tmp'),
+#    log_dir:   File.expand_path('tmp')
+#}
+#
+#server = File.expand_path('codestrap/server/rest.rb')
+#Daemons.run_proc('servercodestrap', options) do
+#  exec "ruby #{server}"
+#end
+
+require 'codestrap/server/rest'
+
+Codestrap::Server::Rest.run!
