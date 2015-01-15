@@ -34,9 +34,9 @@ module Codestrap
           proj_path = String(src.gsub(/^#{Regexp.escape(self.src)}/, ''))
 
           # Destination path substitutions
-          proj_path =~ /:codestrap:(.+?):/
+          proj_path =~ /:(?:stub|strap):(.+?):/
           object      = $1
-          replacement = proj_path.gsub(/:codestrap:.+?:/, "<%= #{object} %>")
+          replacement = proj_path.gsub(/:(?:stub|strap):.+?:/, "<%= #{object} %>")
           if proj_path != replacement
             # Regex replacement
             ns        = Codestrap::Namespace.new(self.objects.objects)
