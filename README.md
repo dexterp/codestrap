@@ -1,6 +1,49 @@
 # CodeStrap #
 
-Project and text file initialisation tool
+[![Build Status](https://travis-ci.org/dexterp/codestrap.svg?branch=master)](https://travis-ci.org/dexterp/codestrap)
+
+CodeStrap is a code generator for the generation of project and individual text file boilerplate. Its written to run on
+the command line instead of an IDE or Editor.
+
+## Command line usage pattern ##
+
+CodeStrap was written to make use of the command line completion. There are two basic **command parts** to remember
+
+* strap
+* stub
+
+```bash
+strap*PROJECT* $NEW_DIRECTORY
+# E.G.
+strappuppetmodule apache2
+straprubygem codestrap
+strapproject mynewproject
+```
+
+```bash
+stub*TEMPLATE* $NEW_FILE
+# E.G.
+stubrubyscript /usr/local/bin/myscript.rb
+stubbashscript /usr/local/bin/myscript.sh
+stubinitscript /etc/rc.d/init.d/startdaemon
+```
+
+Every strapPROJECT and stubTEMPLATE is a symlink to the strap command. These symlinks are stored by default in the
+$HOME/.codestrap/bin directory. Each command renders a corresponding project or file template.
+
+ ```bash
+# Code generator for a project
+$HOME/.codestrap/bin/straprubygem
+# Corresponding project boilerplate
+$HOME/.codestrap/content/rubygem/
+
+# Code generator for a text file
+$HOME/.codestrap/bin/stubrubyscript
+# Corresponding file template
+$HOME/.codestrap/content/rubyscript.erb
+```
+
+This setup guarantees access to your templates anywhere on the command line.
 
 ## Installation ##
 
@@ -76,7 +119,7 @@ Add CodeStrap links to $PATH
 
     $ export PATH=$HOME/.codestrap/bin:$PATH
 
-Lets make some scripts
+generate scripts
 
     $ stubrubyscript /usr/local/bin/helloworld
     $ chmod 755 /usr/local/bin/helloworld
