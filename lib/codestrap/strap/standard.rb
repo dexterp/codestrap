@@ -2,9 +2,9 @@ require 'erb'
 require 'find'
 require 'fileutils'
 require 'ostruct'
-require 'codestrap/boilerplate/abstract'
 require 'codestrap/namespace'
 require 'codestrap/patch'
+require 'codestrap/strap/abstract'
 require 'tmpdir'
 
 module Codestrap

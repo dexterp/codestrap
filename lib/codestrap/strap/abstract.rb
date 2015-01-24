@@ -66,7 +66,7 @@ module Codestrap
         !!@overwrite
       end
 
-      # Set source boilerplate
+      # Set source project
       #
       # @param [String] src
       #   Path to source directory

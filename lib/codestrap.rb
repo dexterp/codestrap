@@ -1,19 +1,19 @@
 require 'etc'
 # TODO - Use logger
 require 'logger'
-require 'codestrap/boilerplate/factory'
-require 'codestrap/boilerplate/abstract'
-require 'codestrap/boilerplate/standard'
 require 'codestrap/cli'
 require 'codestrap/client'
 require 'codestrap/config'
-require 'codestrap/object/factory'
 require 'codestrap/log'
 require 'codestrap/namespace'
+require 'codestrap/object/factory'
 require 'codestrap/object/standard/datetime'
-require 'codestrap/template/factory'
-require 'codestrap/template/abstract'
-require 'codestrap/template/standard'
+require 'codestrap/strap/factory'
+require 'codestrap/strap/abstract'
+require 'codestrap/strap/standard'
+require 'codestrap/stub/factory'
+require 'codestrap/stub/abstract'
+require 'codestrap/stub/standard'
 require 'codestrap/version'
 
 module Codestrap
@@ -43,7 +43,7 @@ module Codestrap
     # @return [Codestrap::Config]
     attr_accessor :config
 
-    # Set codestrap
+    # Set stub template
     # @param [String] template
     #   Codestrap name
     # @return [String|nil]
@@ -71,7 +71,7 @@ module Codestrap
       logger.error :TEMPLATE_DIR, template, @config.local.content.join(', ')
     end
 
-    # Set boilerplate
+    # Set strap project
     # @param [String] project
     #   Boilerplate name
     # @return [String|nil]
@@ -225,7 +225,7 @@ module Codestrap
       end
     end
 
-    # Generate boilerplate metadata
+    # Generate strap metadata
     #
     # @param [String] name
     #   Optional module name
@@ -239,9 +239,9 @@ module Codestrap
     # @param [Array] paths
     #   Optional path list for content search
     # @return [Hash]
-    #   Boilerplate directory structure metadata
+    #   Strap directory structure metadata
     #     {
-    #       'boilerplate_name' => {
+    #       'strap_name' => {
     #         :files => [
     #           {
     #             :file  => 'relative/tree/file/path',
@@ -335,7 +335,7 @@ module Codestrap
       codestraps.uniq
     end
 
-    # Available boilerplates from local and server
+    # Available projects from local and server
     #
     # @return [Array]
     def list_straps

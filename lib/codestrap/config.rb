@@ -10,7 +10,7 @@ module Codestrap
       # Array of files
       # @return [Array]
       attr_accessor :base
-      # Ignore files from boilerplate
+      # Ignore files from project
       # @return [Array]
       attr_accessor :ignore
 
