@@ -8,7 +8,7 @@ require 'codestrap/strap/abstract'
 require 'tmpdir'
 
 module Codestrap
-  module Boilerplate
+  module Strap
     # Standard project renderer
     #
     class Standard < Abstract
@@ -76,7 +76,7 @@ module Codestrap
             when :regular
               FileUtils.install obj[:src], obj[:dst]
             when :erb
-              renderer         = Codestrap::Template::Factory.new('Standard').construct
+              renderer         = Codestrap::Stub::Factory.new('Standard').construct
               renderer.objects = self.objects
               renderer.src     = obj[:src]
               renderer.dst     = obj[:dst]

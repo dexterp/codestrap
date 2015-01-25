@@ -16,7 +16,7 @@ And(/^logging fixtures file "([^"]*)" with:$/) do |yaml, text|
   file.write(sf_data)
   file.close
   ENV['CODESTRAPFILE'] = sf_path
-  @links          = @fixture_hash['links']
+  @links               = @fixture_hash['links']
   @testtools.path_reset
   @testtools.path_unshift(@links)
 end
@@ -28,14 +28,14 @@ And(/^logging fixture "([^"]*)"$/) do |command|
   @has_output  = @fixture_cur['output?']
   @test        = @fixture_cur['test']
   @stderr      = @fixture_cur['stderr']
+  @exit        = @fixture_cur['exit'].to_i
 end
 
 And(/^logging file linking$/) do
-  unless File.exist?('logging/home/logging/codestrap/bin/codestrapcommand')
-    FileUtils.ln_s(File.expand_path('logging/home/logging/codestrap/bin/codestrap'), 'logging/home/logging/codestrap/bin/codestrapcommand')
-  end
-  unless File.exist?('logging/home/logging/codestrap/bin/strapproject')
-    FileUtils.ln_s(File.expand_path('logging/home/logging/codestrap/bin/strap'), 'logging/home/logging/codestrap/bin/strapproject')
+  %W[stubcommand strapproject stubexists strapexists].each do |cmd|
+    link = "logging/home/logging/codestrap/bin/#{cmd}"
+    next if File.exist? link
+    FileUtils.ln_s(File.expand_path('logging/home/logging/codestrap/bin/strap'), link)
   end
 end
 
@@ -43,7 +43,8 @@ When(/^logging command is executed$/) do
   args = @command.split(/\s+/)
   args << @output if @output
   @logging_capture = Capture::Cli.inline do
-    Codestrap::Core.new(args)
+    cs = Codestrap::Core.new(args)
+    cs.execute!
   end
 end
 
@@ -55,10 +56,10 @@ end
 
 And(/^logging STDERR contains a message$/) do
   Array(@stderr).each do |err|
-    expect(@logging_capture.stderr).to include(err)
+    expect(@logging_capture.stdout).to include(err)
   end
 end
 
 And(/^logging exits$/) do
-  pending
+  expect(@logging_capture.object_exit.status).to eql(@exit)
 end

@@ -14,23 +14,18 @@ Feature: Programing supports logging
         conf.local.urls = 'http://127.0.0.1:4567/rest/capability.json'
       end
     commands:
-      codestrapcommand:
+      stubcommand:
         output: logging/output/command
         output?: false
         stderr:
-          - Could not find codestrap "command".
-        exit: 255
+          - Could not find template "command".
+        exit: 1
       strapproject:
         output: logging/output/project
         output?: false
         stderr:
-          - Could not find boilerplate "project".
-        exit: 255
-      codestrap --generate:
-        output?: false
-        stderr:
-          - File "codestrapnotlink" is not a symlink.
-          - File "codestrapdirectory" is not a symlink.
+          - Could not find project "project".
+        exit: 1
     """
     And logging fixture "<command>"
     And logging file linking
@@ -39,4 +34,6 @@ Feature: Programing supports logging
     And logging STDERR contains a message
     And logging exits
   Examples:
-    | command         |
+    | command          |
+    | stubcommand      |
+    | strapproject     |

@@ -1,5 +1,4 @@
 require 'etc'
-# TODO - Use logger
 require 'logger'
 require 'codestrap/cli'
 require 'codestrap/client'
@@ -62,13 +61,14 @@ module Codestrap
 
       # Remote templates
       @clients.each do |client|
-        templatepath = client.getcodestrap(template)
+        templatepath = client.getstub(template)
         next unless templatepath and File.exist? templatepath
         @template = templatepath
         return @template
       end
 
-      logger.error :TEMPLATE_DIR, template, @config.local.content.join(', ')
+      logger.error :STUBMISSING, template
+      exit 1
     end
 
     # Set strap project
@@ -94,15 +94,22 @@ module Codestrap
         return @project
       end
 
-      logger.error :PROJECT_DIR, template, @config.local.content.join(', ')
+      logger.error :STRAPMISSING, project
+      exit 1
     end
 
     # Logging object
     # @return [Codestrap::Log]
     def logger
-      @logger || begin
+      self.class.logger
+    end
+
+    # Logging object
+    # @return [Codestrap::Log]
+    def self.logger
+      @@logger ||= begin
         logger  = Codestrap::Log.new
-        @logger = logger
+        @@logger = logger
       end
     end
 
@@ -144,8 +151,8 @@ module Codestrap
         when self.cli.options.generate
           strap_links
         else
-          # TODO - Test error
           logger.error :INVALID_CMD, cli.command
+          exit 1
       end
 
       exit 0
@@ -162,7 +169,7 @@ module Codestrap
       argv             = self.cli.argv
 
       # Render setup
-      renderer         = Codestrap::Template::Factory.new('Standard').construct(argv)
+      renderer         = Codestrap::Stub::Factory.new('Standard').construct(argv)
       renderer.objects = obj
       renderer.src     = src || self.template
       renderer.dst     = dst || self.cli.argv[0]
@@ -181,7 +188,7 @@ module Codestrap
       obj.config  = @config
 
       argv             = self.cli.argv
-      renderer         = Codestrap::Boilerplate::Factory.new('Standard').construct(argv)
+      renderer         = Codestrap::Strap::Factory.new('Standard').construct(argv)
       renderer.ignore  = @config.local.ignore
       renderer.objects = obj
       renderer.src     = src || self.project
@@ -194,7 +201,10 @@ module Codestrap
 
     def strap_links
       # FixMe - Move to Codestrap::Log
-      raise Exception, "Can not link unless file is codestrap binary" unless cli.command =~ /^strap$/
+      unless cli.command =~ /^strap$/
+        logger.error(:LINKTARGET, cli.command, 'strap')
+        exit 1
+      end
 
       # stub templates
       newtemplates = list_stubs.map { |f| File.basename(f, '.erb') } - list_cmds.select { |f| f =~ /^stub/ }.map { |f| f =~ /^stub(.+)$/; $1 }
@@ -322,7 +332,7 @@ module Codestrap
       if @clients
         @clients.each do |client|
           codestraps ||= []
-          codestraps += client.codestraplist || []
+          codestraps += client.stublist || []
           codestraps.flatten!
         end
       end

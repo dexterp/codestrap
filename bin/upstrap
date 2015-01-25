@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'codestrap'
+require 'codestrap/server/rest'
+
+Codestrap::Server::Rest.run!

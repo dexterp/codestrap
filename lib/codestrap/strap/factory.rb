@@ -1,8 +1,8 @@
 require 'codestrap/mixin'
 
 module Codestrap
-  module Boilerplate
-    # Factory for instantiating classes from the Codestrap::Boilerplate namespace
+  module Strap
+    # Factory for instantiating classes from the Codestrap::Strap namespace
     class Factory
       include Codestrap::Mixin::Exceptions::Factory
 
@@ -11,14 +11,14 @@ module Codestrap
       # Factory constructor for Codestrap::Template::* Classes
       #
       # @param [Class, Symbol, String] nklass
-      # @return [Codestrap::Template::Factory]
+      # @return [Codestrap::Stub::Factory]
       def initialize(nklass)
         self.klass = nklass
         enforce_methods
         ensure_required
       end
 
-      # Constructor for Codestrap::Boilerplate::* Classes
+      # Constructor for Codestrap::Strap::* Classes
       #
       # @param [Array] args
       #   Arguments to pass to constructor of child object
@@ -29,13 +29,13 @@ module Codestrap
       end
 
       # Dynamic Class creation.
-      # Looks for Classes in Codestrap::Boilerplate::NKLASS
+      # Looks for Classes in Codestrap::Strap::NKLASS
       #
       # @param [String|Symbol] nklass
       #   Look for Codestrap::Template::nklass
       # @raise [FactoryArgumentError]
       #   Raised if nklass is not type String or type Symbol
-      # @return [Codestrap::Template::KLASS]
+      # @return [Codestrap::Stub::KLASS]
       #   Return class Codestrap::Template::KLASS
       def to_class nklass
         case
@@ -44,9 +44,9 @@ module Codestrap
           when nklass.is_a?(String)
             klass = nklass
           else
-            raise ArgumentError, %Q(Could not find Class Codestrap::Boilerplate::#{nklass.to_s})
+            raise ArgumentError, %Q(Could not find Class Codestrap::Strap::#{nklass.to_s})
         end
-        @klass = ['Codestrap', 'Boilerplate', klass].reduce(Module, :const_get)
+        @klass = ['Codestrap', 'Strap', klass].reduce(Module, :const_get)
         @klass
       end
 

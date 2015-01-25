@@ -1,7 +1,7 @@
 require 'erb'
 
 module Codestrap
-  module Template
+  module Stub
     # Standard file (erb) render
     class Standard < Abstract
 

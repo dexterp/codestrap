@@ -74,24 +74,24 @@ module Codestrap
       end
     end
 
-    def codestrapmetadata(file)
+    def stubmetadata(file)
       return nil unless @capability
-      response = Net::HTTP.get_response URI codestrapmetadataurl + '?name=' + file
+      response = Net::HTTP.get_response URI stubmetadataurl + '?name=' + file
       JSON.parse(response.body)
     end
 
-    def codestrapmetadataurl
+    def stubmetadataurl
       return nil unless @capability
       "#{@scheme}://#{@host}:#{@port}#{@capability['urls']['stub']['metadata']}"
     end
 
-    def codestraplist
+    def stublist
       return nil unless @capability
-      response = Net::HTTP.get_response URI codestrapmetadataurl
+      response = Net::HTTP.get_response URI stubmetadataurl
       JSON.parse(response.body).keys
     end
 
-    def codestrapfileurl
+    def stubfileurl
       return nil unless @capability
       "#{@scheme}://#{@host}:#{@port}#{@capability['urls']['stub']['file']}"
     end
@@ -124,22 +124,23 @@ module Codestrap
     end
 
     def getobjects(objects=nil)
+      return {} unless @capability
       response = Net::HTTP.get_response URI objecturl
       JSON.parse(response.body)
     end
 
-    def getcodestrap(codestrap)
+    def getstub(codestrap)
       return nil unless @capability
       path     = File.join(cache_content, codestrap + '.erb')
 
       # Get metadata
-      metadata = codestrapmetadata codestrap
-      unless metadata
+      metadata = stubmetadata codestrap
+      if not metadata or metadata.empty?
         return nil
       end
 
       # create file
-      response = Net::HTTP.get_response URI codestrapfileurl + "/#{codestrap}"
+      response = Net::HTTP.get_response URI stubfileurl + "/#{codestrap}"
       File.open(path, 'w') do |file|
         file.write response.body
       end
@@ -153,6 +154,9 @@ module Codestrap
 
       # Get metadata
       metadata = strapmetadata project
+      if not metadata or metadata.empty?
+        return nil
+      end
 
       # Make directories
       metadata['files'].each do |file|

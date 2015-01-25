@@ -32,3 +32,14 @@ task :clean do
     rm_rf file
   end
 end
+
+desc 'Uninstall'
+task :uninstall do
+  sh 'gem uninstall codestrap -x'
+end
+
+desc 'Reinstall'
+task :reinstall do
+  Rake::Task['uninstall'].invoke
+  Rake::Task['install'].invoke
+end

@@ -1,29 +1,29 @@
 require 'codestrap/mixin'
 
 module Codestrap
-  module Template
-    # Factory for instantiating classes from the Codestrap::Template namespace
+  module Stub
+    # Factory for instantiating classes from the Codestrap::Stub namespace
     class Factory
       include Codestrap::Mixin::Exceptions::Factory
 
       attr_reader :klass
 
-      # Factory constructor for Codestrap::Template::* Classes
+      # Factory constructor for Codestrap::Stub::* Classes
       #
       # @param nklass [Symbol|String]
-      # @return [Codestrap::Template::Factory]
+      # @return [Codestrap::Stub::Factory]
       def initialize(nklass)
         self.klass = nklass
         enforce_methods
         ensure_required
       end
 
-      # Constructor for Codestrap::Template::* Classes
+      # Constructor for Codestrap::Stub::* Classes
       #
       # @param [Array] args
       #   Arguments to pass to constructor of child object
       # @raise [FactoryNotImplemented]
-      #   Raised when Class Codestrap::Template::KLASS doesn't exist
+      #   Raised when Class Codestrap::Stub::KLASS doesn't exist
       # @return [Object]
       #   Return the object as specified Factory#klass.new(args)
       def construct(*args)
@@ -31,14 +31,14 @@ module Codestrap
       end
 
       # Dynamic Class creation.
-      # Looks for Classes in Codestrap::Template::NKLASS
+      # Looks for Classes in Codestrap::Stub::NKLASS
       #
       # @param [String|Symbol] nklass
-      #   Look for Codestrap::Template::nklass
+      #   Look for Codestrap::Stub::nklass
       # @raise [FactoryArgumentError]
       #   Raised if nklass is not type String or type Symbol
-      # @return [Codestrap::Template::KLASS]
-      #   Return class Codestrap::Template::KLASS
+      # @return [Codestrap::Stub::KLASS]
+      #   Return class Codestrap::Stub::KLASS
       def to_class nklass
         case
           when nklass.is_a?(Symbol)
@@ -46,9 +46,9 @@ module Codestrap
           when nklass.is_a?(String)
             klass = nklass
           else
-            raise FactoryNotImplemented, %Q(Could not find Class Codestrap::Template::#{nklass.to_s})
+            raise FactoryNotImplemented, %Q(Could not find Class Codestrap::Stub::#{nklass.to_s})
         end
-        @klass = ['Codestrap', 'Template', klass ].reduce(Module, :const_get)
+        @klass = ['Codestrap', 'Stub', klass ].reduce(Module, :const_get)
         @klass
       end
 
@@ -59,7 +59,7 @@ module Codestrap
       #   klass.pre
       #   klass.execute
       #
-      # Inherited from Codestrap::Template::Factory
+      # Inherited from Codestrap::Stub::Factory
       #   klass.file
       #   klass.finalize
       #

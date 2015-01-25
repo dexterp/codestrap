@@ -2,7 +2,7 @@ require 'codestrap/mixin'
 require 'tmpdir'
 
 module Codestrap
-  module Boilerplate
+  module Strap
     # @abstract
     #
     # Boilerplate renderer class
@@ -39,7 +39,7 @@ module Codestrap
       def self.abstract_methods
         instance_methods.group_by { |m| instance_method(m) }.map(&:last).keep_if { |sym| sym.length > 1 }.map { |methods|
           if methods.include?('abstract'.to_sym)
-            return methods.map{ |method| method.to_s }.select { |method| method != 'abstract' }
+            return methods.map { |method| method.to_s }.select { |method| method != 'abstract' }
           end
         }
         []
@@ -72,7 +72,6 @@ module Codestrap
       #   Path to source directory
       def src=(src)
         raise Exception, %q[File doesn't exist] unless File.exist?(src)
-        raise TypeError, %q[Must be a valid file] unless src =~ /[A-Za-z0-9\._-]/
         @src = src
       end
 
@@ -81,9 +80,14 @@ module Codestrap
       # @param [String] dst
       #   Path to destination directory
       def dst=(dst)
-        raise RendererCannotOverwrite, %Q[File #{dst} exist will not overwrite] if !overwrite? and File.exist? dst
-        raise RendererMissingRoot, %q[Directory doesn't exist] unless File.exist?(File.dirname(dst))
-        raise RendererTypeError, %q[Must be a valid file] unless dst =~ /[A-Za-z0-9\._-]/
+        if !overwrite? and File.exist? dst
+          Codestrap::Core.logger.error(:FILEEXISTS, dst)
+          exit 255
+        end
+        unless File.exist?(File.dirname(dst))
+          Codestrap::Core.logger.error(:NOPATH, dst)
+          exit 255
+        end
         @dst = dst
       end
 
