@@ -31,5 +31,5 @@ EOF
   spec.add_development_dependency 'webmock'
   spec.add_development_dependency 'shotgun'
   spec.add_development_dependency 'yard'
-  spec.add_development_dependency 'kramdown'
+  spec.add_development_dependency 'redcarpet'
 end

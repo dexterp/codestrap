@@ -1,37 +1,43 @@
 # CodeStrap #
 
-[![Build Status](https://travis-ci.org/dexterp/codestrap.svg?branch=master)](https://travis-ci.org/dexterp/codestrap)
+---
 
-CodeStrap is a code generator for the generation of project and individual text file boilerplate. Its written to run on
-the command line instead of an IDE or Editor.
+[![Build Status](https://travis-ci.org/dexterp/codestrap.svg?branch=master)](https://travis-ci.org/dexterp/codestrap)
+[![Dependency Status](https://gemnasium.com/dexterp/codestrap.png)](https://gemnasium.com/dexterp/codestrap)
+[![Inline docs](http://inch-ci.org/github/dexterp/codestrap.svg)](http://inch-ci.org/github/dexterp/codestrap)
+
+CodeStrap is a code generator for the generation of project and individual text file boilerplate. Its written
+specifically with command line usage in mind.
 
 ## Command line usage pattern ##
 
-CodeStrap was written to make use of the command line completion. There are two basic **command parts** to remember
+There are two starting **command parts**...
 
-* strap
-* stub
+ * **strap**...
 
-```bash
-strap*PROJECT* $NEW_DIRECTORY
+```ruby
+strap*project* $NEW_DIRECTORY
 # E.G.
 strappuppetmodule apache2
 straprubygem codestrap
 strapproject mynewproject
 ```
 
-```bash
-stub*TEMPLATE* $NEW_FILE
+ * **stub**...
+
+```ruby
+stub*template* $NEW_FILE
 # E.G.
 stubrubyscript /usr/local/bin/myscript.rb
 stubbashscript /usr/local/bin/myscript.sh
 stubinitscript /etc/rc.d/init.d/startdaemon
 ```
 
-Every strapPROJECT and stubTEMPLATE is a symlink to the strap command. These symlinks are stored by default in the
-$HOME/.codestrap/bin directory. Each command renders a corresponding project or file template.
+Every **strapproject** and **stubtemplate** is a command and a symlink to the **strap** command. Command symlinks
+are stored by default in the $HOME/.codestrap/bin directory. Each command renders a corresponding project or
+file template.
 
- ```bash
+```
 # Code generator for a project
 $HOME/.codestrap/bin/straprubygem
 # Corresponding project boilerplate
@@ -43,7 +49,14 @@ $HOME/.codestrap/bin/stubrubyscript
 $HOME/.codestrap/content/rubyscript.erb
 ```
 
-This setup guarantees access to your templates anywhere on the command line.
+By adding the *CodeStrap* bin directory to the default $PATH, all project and template boilerplate are are available
+anywhere on the command line.
+
+```bash
+$ export PATH=$HOME/.codestrap/bin
+$ strappuppetmodule ~/workspace/apache
+$ stubrubyscript /usr/local/bin/newscript.rb
+```
 
 ## Installation ##
 
@@ -86,52 +99,68 @@ mkdir $HOME/.codestrap/content
 
 Create a basic object
 
-    touch $HOME/.codestrap/objects/contact.yaml
+```
+touch $HOME/.codestrap/objects/contact.yaml
+```
 
 with YAML content
 
-    ---
-    name: Masked Avenger
-    email: mavenger@the.cloud
+```yaml
+---
+name: Masked Avenger
+email: mavenger@the.cloud
+```
 
 Create a template file
 
-    $ touch $HOME/.codestrap/content/rubyscript.erb
+```
+$ touch $HOME/.codestrap/content/rubyscript.erb
+```
 
 with ERB content
 
-    #!/usr/bin/env ruby
-    #
-    # Author: <%= contact.name %>
-    # Email: <%= contact.email %>
-    puts "My very cool script"
+```ruby
+#!/usr/bin/env ruby
+#
+# Author: <%= contact.name %>
+# Email: <%= contact.email %>
+puts "My very cool script"
+```
 
 Manually create a link to the strap binary
 
-    $ ln -s `which strap` $HOME/.codestrap/bin/stubrubyscript
+```
+$ ln -s `which strap` $HOME/.codestrap/bin/stubrubyscript
+```
 
 or automatically create the links
 
-    $ strap --generate
-    $ ls $HOME/.codestrap/bin/
+```
+$ strap --generate
+$ ls $HOME/.codestrap/bin/
+```
 
 Add CodeStrap links to $PATH
 
-    $ export PATH=$HOME/.codestrap/bin:$PATH
+```
+$ export PATH=$HOME/.codestrap/bin:$PATH
+```
 
 generate scripts
 
-    $ stubrubyscript /usr/local/bin/helloworld
-    $ chmod 755 /usr/local/bin/helloworld
-    $ helloworld
-    My very cool script
+```ruby
+$ stubrubyscript /usr/local/bin/helloworld
+$ chmod 755 /usr/local/bin/helloworld
+$ helloworld
+My very cool script
 
-    $ cat /usr/local/bin/helloworld
-    #!/usr/bin/env ruby
-    #
-    # Author: Masked Avenger
-    # Email: mavenger99@the.cloud
-    puts "My very cool script"
+$ cat /usr/local/bin/helloworld
+#!/usr/bin/env ruby
+#
+# Author: Masked Avenger
+# Email: mavenger99@the.cloud
+puts "My very cool script"
+```
 
 ## Contributing
 
