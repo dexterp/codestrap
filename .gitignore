@@ -8,6 +8,7 @@
 /pkg/
 /spec/reports/
 /tmp/
+Vagrantfile
 .ruby-gemset
 .ruby-version
 /.vagrant/

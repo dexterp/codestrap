@@ -126,7 +126,7 @@ module Codestrap
       # @return [Integer]
       #   Returns 0 on success
       def to_disk
-        File.rename self.working_dir.path, self.dst
+        FileUtils.mv self.working_dir.path, self.dst
       end
 
       alias_method :file, :working_dir

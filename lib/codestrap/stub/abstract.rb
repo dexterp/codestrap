@@ -131,7 +131,7 @@ module Codestrap
       #   Returns 0 on success
       def to_disk
         @file.close
-        File.rename self.file.path, self.dst
+        FileUtils.mv self.file.path, self.dst
       end
     end
   end

@@ -30,9 +30,7 @@ And(/^server fixture "([^"]+)"$/) do |number|
 end
 
 And(/^server capbility rest "(\/rest\/capability\.json)" is valid$/) do |url|
-  $DEBUG=true
   get url
-  $DEBUG=false
   expect(last_response.ok?).to be_truthy
   @capability = JSON.parse(last_response.body)
 end

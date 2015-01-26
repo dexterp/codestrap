@@ -40,11 +40,11 @@ end
 def diff_tree?(left, right)
   left_tree = []
   Dir.chdir(left) do
-    left_tree = Dir.glob('**')
+    left_tree = Dir.glob('**').sort { |a,b| a.length <=> b.length }
   end
   right_tree = []
   Dir.chdir(right) do
-    right_tree = Dir.glob('**')
+    right_tree = Dir.glob('**').sort { |a,b| a.length <=> b.length }
   end
 
   if left_tree != right_tree
