@@ -3,4 +3,6 @@
 require 'codestrap'
 require 'codestrap/server/rest'
 
+exit(0)
+
 Codestrap::Server::Rest.run!

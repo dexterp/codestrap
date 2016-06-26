@@ -5,6 +5,7 @@ require 'ostruct'
 require 'codestrap/namespace'
 require 'codestrap/patch'
 require 'codestrap/strap/abstract'
+require 'ptools'
 require 'tmpdir'
 
 module Codestrap
@@ -56,7 +57,7 @@ module Codestrap
           file = Codestrap::Patch::File.new src
           if file.stat.file?
             # Read modeline
-            if file.has_mode_line?
+            if not File.binary?(src) and file.has_mode_line?
               # Templates
               @compiled.push({file: proj_path, src: src, dst: dst, type: file.template})
             else

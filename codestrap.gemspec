@@ -23,6 +23,7 @@ EOF
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'sinatra', '~> 1.4.5'
+  spec.add_runtime_dependency 'ptools'
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'cucumber'
   spec.add_development_dependency 'rack-test'
@@ -32,4 +33,5 @@ EOF
   spec.add_development_dependency 'shotgun'
   spec.add_development_dependency 'yard'
   spec.add_development_dependency 'redcarpet'
+  spec.add_development_dependency 'mocha'
 end

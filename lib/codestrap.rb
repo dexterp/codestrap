@@ -151,7 +151,7 @@ module Codestrap
         when self.cli.options.generate
           strap_links
         else
-          logger.error :INVALID_CMD, cli.command
+          logger.error :INVALIDCMD, cli.command
           exit 1
       end
 
@@ -300,6 +300,28 @@ module Codestrap
       tree
     end
 
+    # Generate strap metadata
+    #
+    # @param [String] name
+    #   Optional module name
+    # @param [Hash] options
+    #   Flags to turn off/on metadata
+    #     {
+    #       :src   => [true|false]
+    #       :ftype => [true|false]
+    #       :mode  => [true|false]
+    #     }
+    # @param [Array] paths
+    #   Optional path list for content search
+    # @return [Hash]
+    #   Strap directory structure metadata
+    #     {
+    #       'stub_name' => {
+    #         :src   => 'relative/tree/file/path.erb',
+    #         :ftype => 'File type as returned by File::Stat.new(file).ftype, EG "file", "directory"'
+    #         :mode  => 'File mode as returned by File::Stat.new(file).mode'
+    #       }
+    #     }
     def stub_metadata(name=nil, options=nil, paths=@config.local.content)
       # TODO - rename
       codestraps   = {}

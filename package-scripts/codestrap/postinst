@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#
+# Perform necessary codestrap setup steps
+# after package is installed.
+#
+
+PROGNAME=`basename $0`
+
+error_exit()
+{
+  echo "${PROGNAME}: ${1:-"Unknown Error"}" 1>&2
+  exit 1
+}
+
+if [ ! -d /usr/local/bin ]; then
+  mkdir -p /usr/local/bin
+fi
+
+# Create the symlink so that codestrap is available in PATH
+ln -Fs $2/bin/strap /usr/local/bin/strap
+#ln -Fs $2/bin/upstrap /usr/local/bin/upstrap
+
+echo "Thank you for installing codestrap!"
+
+exit 0

@@ -66,7 +66,7 @@ module Codestrap
       #   Template types :erb
       def template
         @template || begin
-          self.modeline
+          self.mode_line
           @template
         end
       end
@@ -82,9 +82,9 @@ module Codestrap
                          # Check if file read
           curpos   = self.pos
           self.pos = 0
-          lines    = self.readlines(limit)
+          lines    = self.readlines()[0 .. (limit - 1)]
           lines.each do |line|
-            line =~ /\b(strap|stub):(erb|)/
+            line =~ /(?:^|\b)(strap|stub):(erb|\S+?)(?:\b|$)/
             if $1
               @mode_line = line
               @template  = $2.to_sym if $2

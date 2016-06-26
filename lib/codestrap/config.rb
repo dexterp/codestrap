@@ -108,7 +108,7 @@ module Codestrap
       # Setup defaults
       Codestrapfile.config do |conf|
         conf.local.base  = %W[codestrap .codestrap].map { |d| File.join(ENV['HOME'], d) }
-        conf.local.ignore = %W[.git .svn]
+        conf.local.ignore = []
         conf.server.bind = '127.0.0.1'
         conf.server.port = '4567'
         conf.server.base = conf.local.base

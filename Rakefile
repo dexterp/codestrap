@@ -43,3 +43,9 @@ task :reinstall do
   Rake::Task['uninstall'].invoke
   Rake::Task['install'].invoke
 end
+
+desc 'Package using omnibus'
+task :package do
+  Rake::Task['build'].invoke
+  sh 'omnibus build codestrap'
+end

@@ -131,7 +131,25 @@ module Codestrap
       #   Returns 0 on success
       def to_disk
         @file.close
-        FileUtils.mv self.file.path, self.dst
+        tmp = open(@file.path)
+        final = Tempfile.new('codestrap')
+        strip_modeline(tmp, final)
+
+        tmp.close
+        File.unlink(@file.path)
+        final.close(unlink_now = false)
+
+        FileUtils.mv final.path, self.dst
+      end
+
+      private
+
+      def strip_modeline(src, dst, line_count=10)
+        i = 0
+        src.each_line do |line|
+          i += 1
+          dst.write(line) unless line =~ /(?:\b|^)(?:strap|stub):(?:erb|)(?:\b|$)/ and i <= line_count
+        end
       end
     end
   end

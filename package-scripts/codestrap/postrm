@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# Perform necessary codestrap removal steps
+# after package is uninstalled.
+#
+
+for link in strap upstrap
+do
+  if [ -f /usr/local/bin/${link} ]
+  then
+    unlink /usr/local/bin/${link}
+  fi
+done
+
+echo "codestrap has been uninstalled!"
+
+exit 0

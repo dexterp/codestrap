@@ -18,7 +18,7 @@ module Codestrap
             if Project.cli
               project = OpenStruct.new()
               mod = Project.cli.command
-              mod =~ /^(?:codestrap|strap)(\S+)$/
+              mod =~ /^(?:stub|strap)(\S+)$/
               project.module  = $1
               project.name = File.basename(Project.cli.argv[0])
 
