@@ -14,10 +14,16 @@ Codestrap is a file codestrap and boilerplate project tool. It is run from the c
 and has been designed to make use of the CLIs autocomplete functionality available
 on supported operating systems shells.
 EOF
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/dexterp/codestrap'
   spec.license       = 'Apache'
 
-  spec.files         = `git ls-files -z`.split("\x0")
+  gem_files          = `git ls-files -z`.split("\x0")
+  %w[^features/ ^omnibus/ ^package-scripts/
+  .gitignore .travis.yml Gemfile LICENSE.txt
+  Rakefile Vagrantfile].each do |ignore|
+    gem_files.reject! { |file| file =~ /#{ignore}/ }
+  end
+  spec.files         = gem_files
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
@@ -34,4 +40,5 @@ EOF
   spec.add_development_dependency 'yard'
   spec.add_development_dependency 'redcarpet'
   spec.add_development_dependency 'mocha'
+  spec.add_development_dependency 'dotenv'
 end

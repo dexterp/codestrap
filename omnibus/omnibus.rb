@@ -13,7 +13,7 @@
 #
 # Uncomment this line to change the default base directory to "local"
 # -------------------------------------------------------------------
-# base_dir './local'
+base_dir './local'
 #
 # Alternatively you can tune the individual values
 # ------------------------------------------------
@@ -49,5 +49,9 @@
 
 # Windows architecture defaults
 # ------------------------------
-windows_arch   %w{x86 x64}.include?((ENV['OMNIBUS_WINDOWS_ARCH'] || '').downcase) ?
+windows_arch %w{x86 x64}.include?((ENV['OMNIBUS_WINDOWS_ARCH'] || '').downcase) ?
                  ENV['OMNIBUS_WINDOWS_ARCH'].downcase.to_sym : :x86
+
+# Build Parameters
+# ------------------------------
+append_timestamp false

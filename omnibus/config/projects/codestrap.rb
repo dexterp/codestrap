@@ -3,7 +3,7 @@
 #
 # All Rights Reserved.
 #
-require File.absolute_path(File.join(File.dirname(__FILE__),'..','..','lib','codestrap','version'))
+require File.absolute_path(File.join(File.dirname(__FILE__),'..','..','..','lib','codestrap','version'))
 
 name 'codestrap'
 maintainer 'Dexter Plameras'
@@ -16,7 +16,11 @@ install_dir "#{default_root}/#{name}"
 build_version Codestrap::VERSION
 build_iteration 1
 
+dependency 'preparation'
+
 dependency 'codestrap'
+
+dependency 'version-manifest'
 
 exclude "**/.git"
 exclude "**/bundler/git"
