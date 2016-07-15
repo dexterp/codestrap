@@ -107,7 +107,7 @@ module Codestrap
     def initialize
       # Setup defaults
       Codestrapfile.config do |conf|
-        conf.local.base  = %W[codestrap .codestrap].map { |d| File.join(ENV['HOME'], d) }
+        conf.local.base  = %W[codestrap .codestrap].map { |d| File.join(env['HOME'], d) }
         conf.local.ignore = []
         conf.server.bind = '127.0.0.1'
         conf.server.port = '4567'
@@ -119,9 +119,19 @@ module Codestrap
       load_codestrapfile
     end
 
+    # Set Environment variables.
+    attr_writer :env
+
+    # Environment variables. Defaults to system environment variables
+    #
+    # @return [Hash]
+    def env
+      @env ||= ENV.to_hash
+    end
+
     def codestrapfile_mtime(codestrapfile)
-      if not codestrapfile and ENV['CODESTRAPFILE'] and File.exist? ENV['CODESTRAPFILE']
-        codestrapfile = ENV['CODESTRAPFILE']
+      if not codestrapfile and env['CODESTRAPFILE'] and File.exist? env['CODESTRAPFILE']
+        codestrapfile = env['CODESTRAPFILE']
       end
       if codestrapfile
         return File::Stat.new(codestrapfile).mtime
@@ -134,13 +144,13 @@ module Codestrap
       reload   = false
       mtime    = nil
       codestrapfile = nil
-      if ENV['CODESTRAPFILE'] and !@@codestrapfile
+      if env['CODESTRAPFILE'] and !@@codestrapfile
         reload   = true
-        codestrapfile = ENV['CODESTRAPFILE']
+        codestrapfile = env['CODESTRAPFILE']
         mtime    = codestrapfile_mtime(codestrapfile)
-      elsif ENV['CODESTRAPFILE'] and !ENV['CODESTRAPFILE'].eql?(@@codestrapfile)
+      elsif env['CODESTRAPFILE'] and !env['CODESTRAPFILE'].eql?(@@codestrapfile)
         reload   = true
-        codestrapfile = ENV['CODESTRAPFILE']
+        codestrapfile = env['CODESTRAPFILE']
         mtime    = codestrapfile_mtime(codestrapfile)
       elsif @@codestrapfile
         mtime = codestrapfile_mtime(@@codestrapfile)
@@ -161,7 +171,7 @@ module Codestrap
       codestrapfile_mtime = nil
       unless codestrapfile
         # Load possible codestrapfiles
-        [ENV['CODESTRAPFILE'], File.join(ENV['HOME'], 'codestrap', 'Codestrapfile'), File.join(ENV['HOME'], '.codestrap', 'Codestrapfile')].each do |sf|
+        [env['CODESTRAPFILE'], File.join(env['HOME'], 'codestrap', 'Codestrapfile'), File.join(env['HOME'], '.codestrap', 'Codestrapfile')].each do |sf|
           next unless sf and File.exist?(sf)
           codestrapfile       = sf
           codestrapfile_mtime = codestrapfile_mtime(sf)

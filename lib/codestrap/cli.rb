@@ -13,6 +13,16 @@ module Codestrap
     # @return [String]
     attr_accessor :argv
 
+    # Set Environment variables.
+    attr_writer :env
+
+    # Environment variables. Defaults to system environment variables
+    #
+    # @return [Hash]
+    def env
+      @env ||= ENV.to_hash
+    end
+
     # Absolute path of calling command
     #
     # @param [String] path
@@ -25,7 +35,7 @@ module Codestrap
         p        = File.expand_path(path)
         @abspath = p if File.exist? p
       else
-        ENV['PATH'].split(File::PATH_SEPARATOR).each do |d|
+        env['PATH'].split(File::PATH_SEPARATOR).each do |d|
           p = File.join(d, path)
           next unless d.length > 0
           next unless File.exist? p

@@ -35,6 +35,7 @@ EOF
   spec.add_development_dependency 'rack-test'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'rspec-expectations'
   spec.add_development_dependency 'webmock'
   spec.add_development_dependency 'shotgun'
   spec.add_development_dependency 'yard'

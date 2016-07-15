@@ -1,5 +1,6 @@
 require 'etc'
 require 'logger'
+require 'fileutils'
 require 'codestrap/cli'
 require 'codestrap/client'
 require 'codestrap/config'
@@ -41,6 +42,16 @@ module Codestrap
     #
     # @return [Codestrap::Config]
     attr_accessor :config
+
+    # Set Environment variables.
+    attr_writer :env
+
+    # Environment variables. Defaults to system environment variables
+    #
+    # @return [Hash]
+    def env
+      @env ||= ENV.to_hash
+    end
 
     # Set stub template
     # @param [String] template
@@ -149,6 +160,7 @@ module Codestrap
           self.project = $1
           strap
         when self.cli.options.generate
+          strap_init_home
           strap_links
         else
           logger.error :INVALIDCMD, cli.command
@@ -199,6 +211,46 @@ module Codestrap
       renderer.to_disk
     end
 
+    # Initialize home directory
+    #
+    # @param [String] codestrap
+    #   Optional name of codestrap directory in $HOME.
+    #   Defaults to '.codestrap'
+    def strap_init_home(codestrap='.codestrap')
+      root_path = File.join(env['HOME'], codestrap)
+      unless File.exist?(root_path)
+        puts "Creating #{root_path}"
+        Dir.mkdir(root_path)
+      end
+      %w(bin content objects).each do |dir|
+        path = File.join(root_path, dir)
+        unless File.exist?(path)
+          puts "Creating #{path}"
+          FileUtils.mkpath path
+        end
+      end
+      codestrapfile = File.join(env['HOME'], codestrap, 'Codestrapfile')
+      unless File.exist?(codestrapfile)
+        tmpfile = Tempfile.new('codestrapfile')
+        output = <<EOF
+Codestrapfile.config do |conf|
+  # Base directory or list of base directories that contain "object" and "content" sub directories
+  # Defaults to $HOME/.codestrap
+  #conf.local.base   = [ "ENV['HOME']/.codestrap", '/usr/local/codestrap' ]
+  #conf.local.base = "ENV['HOME']/.codestrap"
+
+  # Ignore paths or list of paths to ignore
+  #conf.local.ignore = [ '.git', '.svn' ]
+  #conf.local.ignore = '.git'
+  end
+EOF
+        tmpfile.write(output)
+        tmpfile.close
+        File.rename(tmpfile, codestrapfile)
+      end
+    end
+
+    # Generate symlinks
     def strap_links
       # FixMe - Move to Codestrap::Log
       unless cli.command =~ /^strap$/
