@@ -22,5 +22,9 @@ dependency 'codestrap'
 
 dependency 'version-manifest'
 
+# Replace older versions
+replace 'codestrap'
+conflict 'codestrap'
+
 exclude "**/.git"
 exclude "**/bundler/git"

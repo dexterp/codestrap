@@ -12,12 +12,11 @@ error_exit()
   exit 1
 }
 
-#if [ ! -d /usr/local/bin ]; then
-#  mkdir -p /usr/local/bin
-#fi
-
+if [ ! -d /usr/local/bin ]; then
+  mkdir -p /usr/local/bin
+fi
 # Create the symlink so that codestrap is available in PATH
-ln -Fs /opt/codestrap/bin/strap /usr/bin/strap
+ln -Fs /opt/codestrap/bin/strap /usr/local/bin/strap
 
 # echo "Thank you for installing codestrap!"
 

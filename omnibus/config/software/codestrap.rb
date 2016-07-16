@@ -9,12 +9,12 @@ dependency 'rubygems'
 build do
   pkg = File.absolute_path(File.join(File.dirname(__FILE__),'..','..','..','pkg',"codestrap-#{version}.gem"))
   gem "install #{pkg} -n #{install_dir}/bin --no-rdoc --no-ri -v #{version}"
-  command "rm -rf /opt/#{name}/embedded/docs"
-  command "rm -rf /opt/#{name}/embedded/share/man"
-  command "rm -rf /opt/#{name}/embedded/share/doc"
-  command "rm -rf /opt/#{name}/embedded/ssl/man"
-  command "rm -rf /opt/#{name}/embedded/info"
-  command "rm -rf /opt/#{name}/bin/upstrap"
-  command "rm -rf /opt/#{name}/bin/rackup"
-  command "rm -rf /opt/#{name}/bin/tilt"
+  delete "/opt/#{name}/embedded/docs"
+  delete "/opt/#{name}/embedded/share/man"
+  delete "/opt/#{name}/embedded/share/doc"
+  delete "/opt/#{name}/embedded/ssl/man"
+  delete "/opt/#{name}/embedded/info"
+  delete "/opt/#{name}/bin/upstrap"
+  delete "/opt/#{name}/bin/rackup"
+  delete "/opt/#{name}/bin/tilt"
 end
