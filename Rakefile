@@ -31,8 +31,11 @@ YARD::Rake::YardocTask.new do |t|
   t.files   = %w[ lib/**/*.rb ]
 end
 
-# Github issues CHANGELOG.md
-GitHubChangelogGenerator::RakeTask.new
+# Github issues as CHANGELOG.md. Compatible with 'bundler/gem_tasks'
+GitHubChangelogGenerator::RakeTask.new :changelog do |config|
+  config.unreleased_label = 'v' + Codestrap::VERSION
+  config.release_url = "https://github.com/dexterp/codestrap/tree/v#{Codestrap::VERSION}"
+end
 
 desc 'Clean files'
 task :clean do
