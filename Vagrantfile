@@ -18,6 +18,11 @@ end
 VAGRANTFILE_API_VERSION = "2"
 
 rvm_build = <<EOF
+if [ ! -e /opt/codestrap ];
+then
+  mkdir /opt/codestrap
+fi
+chown vagrant:vagrant /opt/codestrap
 sudo -u vagrant -i /bin/bash -l -c "gpg --list-key | grep mpapis@gmail.com 2> /dev/null > /dev/null || curl -sSL https://rvm.io/mpapis.asc | gpg --import -"
 sudo -u vagrant -i /bin/bash -l -c "test -f /usr/local/rvm/scripts/rvm 2> /dev/null || \\curl -L https://get.rvm.io | bash -s stable"
 sudo -u vagrant -i /bin/bash -l -c "rvm list | grep 2.2.5 2>&1 > /dev/null || rvm install 2.2.5"

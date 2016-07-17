@@ -4,7 +4,7 @@ Given(/^a missing ~\/\.codestrap directory$/) do
 end
 
 When(/^the initialisation "strap \-g" is run$/) do
-  override = ENV
+  override = ENV.to_hash
   override['HOME'] = 'init_home_dir'
   @init_home_output = Capture::Cli.inline do
     args = %w(strap -g)

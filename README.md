@@ -59,11 +59,11 @@ straprubygem mygem
 
 For template setups for both projects and individual files see ...
 
-[BOILERPLATE](BOILERPLATE.md)
+[BOILERPLATE](https://github.com/dexterp/codestrap/blob/master/BOILERPLATE.md)
 
 ## Configuration File
 
 Codestrap uses "Codestrapfile" as a configuration file. For details see.
 
-[CODESTRAPFILE](CODESTRAPFILE.md)
+[CODESTRAPFILE](https://github.com/dexterp/codestrap/blob/master/BOILERPLATE.md)
 

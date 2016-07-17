@@ -17,4 +17,7 @@ build do
   delete "/opt/#{name}/bin/upstrap"
   delete "/opt/#{name}/bin/rackup"
   delete "/opt/#{name}/bin/tilt"
+
+  # Modify the binstubs wrapper
+  ruby %q[-pi -e "gsub(/require /,%Q[ENV.delete('GEM_HOME')\nENV.delete('GEM_PATH')\nrequire ])" /opt/codestrap/bin/strap]
 end

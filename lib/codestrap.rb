@@ -160,6 +160,7 @@ module Codestrap
           self.project = $1
           strap
         when self.cli.options.generate
+          strap_rcfile
           strap_init_home
           strap_links
         else
@@ -211,6 +212,49 @@ module Codestrap
       renderer.to_disk
     end
 
+    # Adds an entry to rcfile depending on shell
+    #
+    def strap_rcfile
+      line = "export PATH=$PATH:$HOME/.codestrap/bin"
+
+      # Check shell
+      rcfile = begin
+        case env['SHELL']
+          when %r{/bin/bash$}
+            File.join(env['HOME'], '.bash_profile')
+          when %r{/bin/zsh$}
+            File.join(env['HOME'], '.zshrc')
+          when %r{/bin/sh$}
+            File.join(env['HOME'], '.profile')
+          else
+            nil
+        end
+      end
+
+      # Check rcfile
+      write = begin
+        case
+          when !rcfile
+            false
+          when(File.exist?(rcfile) and File.foreach(rcfile).grep(%r{export PATH=\$PATH:\$HOME/\.codestrap/bin}).length < 1)
+            line = "\n" + line
+            true
+          when(not File.exist?(rcfile))
+            true
+          else
+            false
+        end
+      end
+
+      # Write file
+      if write
+        puts "Adding PATH='$PATH:$HOME/.codestrap/bin' to #{rcfile}"
+        File.open(rcfile,'a') do |fh|
+          fh.write(line)
+        end
+      end
+    end
+
     # Initialize home directory
     #
     # @param [String] codestrap
@@ -242,7 +286,7 @@ Codestrapfile.config do |conf|
   # Ignore paths or list of paths to ignore
   #conf.local.ignore = [ '.git', '.svn' ]
   #conf.local.ignore = '.git'
-  end
+end
 EOF
         tmpfile.write(output)
         tmpfile.close
