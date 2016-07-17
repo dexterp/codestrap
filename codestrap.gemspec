@@ -42,4 +42,5 @@ EOF
   spec.add_development_dependency 'redcarpet'
   spec.add_development_dependency 'mocha'
   spec.add_development_dependency 'dotenv'
+  spec.add_development_dependency 'github_changelog_generator'
 end

@@ -14,20 +14,25 @@ require 'cucumber/rake/task'
 require 'rake'
 require 'yard'
 require 'dotenv'
+require 'github_changelog_generator/task'
 
 def getinput(prompt)
   print prompt
   STDIN.gets.chomp
 end
 
-
+# Cumcumber features
 Cucumber::Rake::Task.new(:features) do |t|
   t.cucumber_opts = "#{FEATURES_PATH} -r #{FEATURES_PATH}/step_definitions -r #{FEATURES_PATH}/support --format pretty"
 end
 
+# YARD documentation
 YARD::Rake::YardocTask.new do |t|
   t.files   = %w[ lib/**/*.rb ]
 end
+
+# Github issues CHANGELOG.md
+GitHubChangelogGenerator::RakeTask.new
 
 desc 'Clean files'
 task :clean do
