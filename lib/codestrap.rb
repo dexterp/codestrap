@@ -215,7 +215,7 @@ module Codestrap
     # Adds an entry to rcfile depending on shell
     #
     def strap_rcfile
-      line = "export PATH=$PATH:$HOME/.codestrap/bin"
+      line = "\nexport PATH=$PATH:$HOME/.codestrap/bin\n"
 
       # Check shell
       rcfile = begin
