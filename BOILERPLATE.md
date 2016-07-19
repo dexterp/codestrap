@@ -56,7 +56,7 @@ Contains generated commands (symlinks). Generated commands have a one to one rel
 $HOME/.codestrap/objects
 ```
 
-Contains *.json, *.yaml or executable files which output JSON. Objects are available in YAML format.
+Contains *.json, *.yaml or executable files which output JSON.
 
 ### YAML Objects
 

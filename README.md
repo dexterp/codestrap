@@ -26,6 +26,7 @@ git clone http://github.com/dexterp/codestrap-samples.git $HOME/.codestrap
 
 ```bash
 echo 'export PATH=$HOME/.codestrap/bin:$PATH' >> $HOME/.profile
+export PATH=$HOME/.codestrap/bin:$PATH
 ```
 
 ### 4. Scan available templates and generate commands (sym links)
@@ -49,7 +50,7 @@ stubrubyscript myscript.rb
 stubperlscript myscript.pl
 ```
 
-```
+```bash
 # Project boilerplate
 strappuppetmodule mypuppetmodule
 straprubygem mygem
@@ -65,5 +66,5 @@ For template setups for both projects and individual files see ...
 
 Codestrap uses "Codestrapfile" as a configuration file. For details see.
 
-[CODESTRAPFILE](https://github.com/dexterp/codestrap/blob/master/BOILERPLATE.md)
+[CODESTRAPFILE](https://github.com/dexterp/codestrap/blob/master/CODESTRAPFILE.md)
 
