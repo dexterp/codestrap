@@ -1,3 +1,5 @@
+# THIS PROJECT HAS BEEN ARCHIVED
+
 # CodeStrap
 
 [![Build Status](https://travis-ci.org/dexterp/codestrap.svg?branch=master)](https://travis-ci.org/dexterp/codestrap)
